@@ -1,0 +1,35 @@
+version: "3"
+
+services:
+  db-transpvisback:
+    container_name: db-transpvisback
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+    volumes:
+      - transpvisback-postgres-data:/var/lib/postgresql/data
+    build:
+      context: ./
+      dockerfile: db-transpvisback.Dockerfile
+
+  api-transpvisback:
+    container_name: api-transpvisback
+    environment:
+     - ENV=dev
+     - DEBUG=True
+     - DB=db-transpvisback
+     - ROOT_URL=http://127.0.0.1:3000/
+    build:
+      context: ./
+      dockerfile: api.Dockerfile
+    command: python3 manage.py runserver 0.0.0.0:8000
+    volumes:  
+      - .:/code
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db-transpvisback
+
+volumes:
+  transpvisback-postgres-data:
