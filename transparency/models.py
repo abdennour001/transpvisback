@@ -2,8 +2,16 @@ from django.db import models
 from transpvisback.enums import StakeholderTypes, InformationElementTypes, StakeholderInformationRelationshipTypes   
 
 
+class Application(models.Model):
+    name = models.CharField(max_length=255)
+    
+    def __str__(self):
+        return f"{self.name}"
+
+
 class Stakeholder(models.Model):
     name = models.CharField(max_length=255)
+    application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
         return f"{self.name}"
@@ -14,6 +22,7 @@ class InformationElement(models.Model):
     type = models.CharField(
         max_length=255, choices=InformationElementTypes.list(), default="data"
     )
+    application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
 
     class Meta:
         verbose_name_plural = "Information Elements"
