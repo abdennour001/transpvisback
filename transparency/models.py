@@ -19,10 +19,12 @@ class Stakeholder(models.Model):
 
 class InformationElement(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     type = models.CharField(
         max_length=255, choices=InformationElementTypes.list(), default="data"
     )
     application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
+    information_elements = models.ManyToManyField('self', related_name='related_information_elements')
 
     class Meta:
         verbose_name_plural = "Information Elements"
@@ -44,3 +46,6 @@ class StakeholderInformationRelationship(models.Model):
 
     class Meta:
         verbose_name_plural = "Stakeholder-information relationships"
+
+    def __str__(self):
+        return f"({self.stakeholder, self.information_element, self.type})"
