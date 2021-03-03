@@ -14,7 +14,7 @@ class Stakeholder(models.Model):
     application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.application.name} > {self.name}"
 
 
 class InformationElement(models.Model):
@@ -30,7 +30,7 @@ class InformationElement(models.Model):
         verbose_name_plural = "Information Elements"
     
     def __str__(self):
-        return self.name
+        return f"{self.application.name} > {self.name}"
 
 
 class StakeholderInformationRelationship(models.Model):
@@ -46,6 +46,7 @@ class StakeholderInformationRelationship(models.Model):
 
     class Meta:
         verbose_name_plural = "Stakeholder-information relationships"
+        unique_together = ['stakeholder', 'information_element', 'type']
 
     def __str__(self):
         return f"({self.stakeholder, self.information_element, self.type})"
