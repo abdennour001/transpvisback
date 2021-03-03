@@ -24,7 +24,7 @@ class InformationElement(models.Model):
         max_length=255, choices=InformationElementTypes.list(), default="data"
     )
     application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
-    information_elements = models.ManyToManyField('self', related_name='related_information_elements')
+    information_elements = models.ManyToManyField('self', related_name='related_information_elements', blank=True)
 
     class Meta:
         verbose_name_plural = "Information Elements"
