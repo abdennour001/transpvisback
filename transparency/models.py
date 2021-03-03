@@ -49,4 +49,4 @@ class StakeholderInformationRelationship(models.Model):
         unique_together = ['stakeholder', 'information_element', 'type']
 
     def __str__(self):
-        return f"({self.stakeholder, self.information_element, self.type})"
+        return f"{self.stakeholder}, {self.information_element}, {self.type}"
