@@ -38,7 +38,7 @@ class StakeholderInformationRelationship(models.Model):
         Stakeholder, on_delete=models.CASCADE, related_name="relationships_as_stakeholder"
     )
     information_element = models.ForeignKey(
-        Stakeholder, on_delete=models.CASCADE, related_name="relationships_as_ie"
+        InformationElement, on_delete=models.CASCADE, related_name="relationships_as_ie"
     )
     type = models.CharField(
         max_length=255, choices=StakeholderInformationRelationshipTypes.list(), default="obligation"
