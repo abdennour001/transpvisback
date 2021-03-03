@@ -4,6 +4,7 @@ from transpvisback.enums import StakeholderTypes, InformationElementTypes, Stake
 
 class Application(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     
     def __str__(self):
         return f"{self.name}"
@@ -11,6 +12,7 @@ class Application(models.Model):
 
 class Stakeholder(models.Model):
     name = models.CharField(max_length=255)
+    description = models.TextField(blank=True, null=True)
     application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
