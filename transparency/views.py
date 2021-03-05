@@ -25,6 +25,7 @@ class StakeholderList(ListView):
     queryset = Stakeholder.objects.all()
     serializer_class = StakeholderSerializer
     permission_classes = (permissions.AllowAny,)
+    filterset_fields = ['application',]
 
 
 class InformationElementDetail(RetrieveView):
@@ -36,6 +37,7 @@ class InformationElementList(ListView):
     queryset = InformationElement.objects.all()
     serializer_class = InformationElementSerializer
     permission_classes = (permissions.AllowAny,)
+    filterset_fields = ['application',]
 
 
 class StakeholderInformationRelationshipDetail(RetrieveView):
@@ -47,5 +49,6 @@ class StakeholderInformationRelationshipList(ListView):
     queryset = StakeholderInformationRelationship.objects.all()
     serializer_class = StakeholderInformationRelationshipSerializer
     permission_classes = (permissions.AllowAny,)
+    filterset_fields = ['stakeholder', 'information_element', 'stakeholder__application',]
 
 
