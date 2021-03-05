@@ -26,7 +26,9 @@ class InformationElement(models.Model):
         max_length=255, choices=InformationElementTypes.list(), default="data"
     )
     application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
-    information_elements = models.ManyToManyField('self', related_name='related_information_elements', blank=True)
+    information_elements = models.ManyToManyField(
+        'self', related_name='related_information_elements', through='transparency.InformationElementAssociation', blank=True, symmetrical=False
+    )
 
     class Meta:
         verbose_name_plural = "Information Elements"
@@ -52,3 +54,14 @@ class StakeholderInformationRelationship(models.Model):
 
     def __str__(self):
         return f"{self.stakeholder}, {self.information_element}, {self.type}"
+
+
+class InformationElementAssociation(models.Model):
+    source = models.ForeignKey(InformationElement, on_delete=models.CASCADE, related_name='source_associations')
+    target = models.ForeignKey(InformationElement, on_delete=models.CASCADE, related_name='target_associations')
+
+    def __str__(self):
+        return f"{self.source.name} > {self.target.name}"
+
+    class Meta:
+        unique_together = ['source', 'target']
