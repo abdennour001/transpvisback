@@ -37,7 +37,7 @@ class InformationElementList(ListView):
     queryset = InformationElement.objects.all()
     serializer_class = InformationElementSerializer
     permission_classes = (permissions.AllowAny,)
-    filterset_fields = ['application',]
+    filterset_fields = ['application', 'type',]
 
 
 class StakeholderInformationRelationshipDetail(RetrieveView):
