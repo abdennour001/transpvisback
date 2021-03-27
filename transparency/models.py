@@ -12,21 +12,23 @@ class Application(models.Model):
 
 
 class Stakeholder(models.Model):
+    label = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
-    application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
+    application = models.ForeignKey(Application, related_name='stakeholders', on_delete=models.CASCADE, blank=False, null=False)
 
     def __str__(self):
         return f"{self.application.name} > {self.name}"
 
 
 class InformationElement(models.Model):
+    label = models.CharField(max_length=255, blank=True, null=True)
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     type = models.CharField(
         max_length=255, choices=InformationElementTypes.list(), default="data"
     )
-    application = models.ForeignKey(Application, on_delete=models.CASCADE, blank=False, null=False)
+    application = models.ForeignKey(Application, related_name='information_elements', on_delete=models.CASCADE, blank=False, null=False)
     information_elements = models.ManyToManyField(
         'self', related_name='related_information_elements', through='transparency.InformationElementAssociation', blank=True, symmetrical=False
     )
