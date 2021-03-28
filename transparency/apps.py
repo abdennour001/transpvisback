@@ -2,4 +2,7 @@ from django.apps import AppConfig
 
 
 class TransparencyConfig(AppConfig):
-    name = 'transparency'
+    name = "transparency"
+
+    def ready(self):
+        import transparency.signals
