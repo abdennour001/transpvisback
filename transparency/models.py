@@ -56,6 +56,9 @@ class InformationElement(models.Model):
         blank=True,
         symmetrical=False,
     )
+    weight = models.IntegerField(
+        default=0, validators=[MaxValueValidator(1), MinValueValidator(0)]
+    )
 
     class Meta:
         verbose_name_plural = "Information Elements"
