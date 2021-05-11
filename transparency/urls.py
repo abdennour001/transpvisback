@@ -8,6 +8,8 @@ from transparency.views import (
     InformationElementList,
     StakeholderInformationRelationshipDetail,
     StakeholderInformationRelationshipList,
+    InformationElementAssociationDetail,
+    InformationElementAssociationList,
 )
 
 urlpatterns = [
@@ -17,6 +19,20 @@ urlpatterns = [
     path("stakeholders/", StakeholderList.as_view()),
     path("information-elements/<int:pk>/", InformationElementDetail.as_view()),
     path("information-elements/", InformationElementList.as_view()),
-    path("stakeholder-information-relationships/<int:pk>/", StakeholderInformationRelationshipDetail.as_view()),
-    path("stakeholder-information-relationships/", StakeholderInformationRelationshipList.as_view()),
+    path(
+        "stakeholder-information-relationships/<int:pk>/",
+        StakeholderInformationRelationshipDetail.as_view(),
+    ),
+    path(
+        "stakeholder-information-relationships/",
+        StakeholderInformationRelationshipList.as_view(),
+    ),
+    path(
+        "information-element-associations/<int:pk>/",
+        InformationElementAssociationDetail.as_view(),
+    ),
+    path(
+        "information-element-associations/",
+        InformationElementAssociationList.as_view(),
+    ),
 ]
