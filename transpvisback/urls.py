@@ -9,4 +9,5 @@ admin.site.index_title = "Paramétrage"
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/", include("transparency.urls")),
+    path("api/", include("authentication.urls")),
 ]

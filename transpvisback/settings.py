@@ -61,9 +61,12 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "transparency.apps.TransparencyConfig",
+    "authentication.apps.AuthenticationConfig",
     "rest_framework",
+    "rest_framework.authtoken",
     "django_filters",
     "corsheaders",
+    "dbbackup",
 ]
 
 MIDDLEWARE = [
@@ -98,10 +101,19 @@ TEMPLATES = [
 WSGI_APPLICATION = "transpvisback.wsgi.application"
 
 REST_FRAMEWORK = {
-    "DEFAULT_FILTER_BACKENDS": [
+    "DEFAULT_FILTER_BACKENDS": (
         "django_filters.rest_framework.DjangoFilterBackend",
         "rest_framework.filters.OrderingFilter",
-    ]
+    ),
+    "DEFAULT_PERMISSION_CLASSES": (
+        "rest_framework.permissions.IsAuthenticated",
+        "rest_framework.permissions.IsAdminUser",
+    ),
+    "DEFAULT_SCHEMA_CLASS": "rest_framework.schemas.coreapi.AutoSchema",
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+        # 'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
 # Database
@@ -136,6 +148,8 @@ AUTH_PASSWORD_VALIDATORS = [
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
 ]
+
+AUTH_USER_MODEL = "authentication.User"
 
 
 # Internationalization
