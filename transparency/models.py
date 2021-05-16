@@ -11,6 +11,13 @@ class Application(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, null=True)
     transparency_note = models.TextField(blank=True, null=True)
+    user = models.ForeignKey(
+        "authentication.user",
+        related_name="applications",
+        on_delete=models.CASCADE,
+        blank=True,
+        null=True,
+    )
 
     def __str__(self):
         return f"{self.name}"

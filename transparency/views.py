@@ -24,41 +24,61 @@ from rest_framework import permissions
 
 
 class ApplicationDetail(RetrieveView, UpdateView, DestroyView):
-    queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
+
+    def get_queryset(self):
+        return Application.objects.filter(
+            user=self.request.user,
+        )
 
 
 class ApplicationList(ListView, CreateView):
-    queryset = Application.objects.all()
     serializer_class = ApplicationSerializer
-    permission_classes = (permissions.AllowAny,)
+    filterset_fields = [
+        "user",
+    ]
+
+    def get_queryset(self):
+        return Application.objects.filter(
+            user=self.request.user,
+        )
 
 
 class StakeholderDetail(RetrieveView, UpdateView, DestroyView):
-    queryset = Stakeholder.objects.all()
     serializer_class = StakeholderSerializer
+
+    def get_queryset(self):
+        return Stakeholder.objects.filter(
+            application__user=self.request.user,
+        )
 
 
 class StakeholderList(ListView, CreateView):
-    queryset = Stakeholder.objects.all()
     serializer_class = StakeholderSerializer
-    permission_classes = (permissions.AllowAny,)
     filterset_fields = [
         "application",
     ]
     ordering_fields = ["application", "label"]
     ordering = ["application", "label"]
 
+    def get_queryset(self):
+        return Stakeholder.objects.filter(
+            application__user=self.request.user,
+        )
+
 
 class InformationElementDetail(RetrieveView, UpdateView, DestroyView):
-    queryset = InformationElement.objects.all()
     serializer_class = InformationElementSerializer
+
+    def get_queryset(self):
+        return InformationElement.objects.filter(
+            application__user=self.request.user,
+        )
 
 
 class InformationElementList(ListView, CreateView):
     queryset = InformationElement.objects.all()
     serializer_class = InformationElementSerializer
-    permission_classes = (permissions.AllowAny,)
     filterset_fields = [
         "application",
         "type",
@@ -66,28 +86,48 @@ class InformationElementList(ListView, CreateView):
     ordering_fields = ["application", "label"]
     ordering = ["application", "label"]
 
+    def get_queryset(self):
+        return InformationElement.objects.filter(
+            application__user=self.request.user,
+        )
+
 
 class StakeholderInformationRelationshipDetail(RetrieveView, UpdateView, DestroyView):
-    queryset = StakeholderInformationRelationship.objects.all()
     serializer_class = StakeholderInformationRelationshipSerializer
+
+    def get_queryset(self):
+        return StakeholderInformationRelationship.objects.filter(
+            stakeholder__application__user=self.request.user,
+        )
 
 
 class StakeholderInformationRelationshipList(ListView, CreateView):
-    queryset = StakeholderInformationRelationship.objects.all()
     serializer_class = StakeholderInformationRelationshipSerializer
-    permission_classes = (permissions.AllowAny,)
     filterset_fields = [
         "stakeholder",
         "information_element",
         "stakeholder__application",
     ]
 
+    def get_queryset(self):
+        return StakeholderInformationRelationship.objects.filter(
+            stakeholder__application__user=self.request.user,
+        )
+
 
 class InformationElementAssociationDetail(RetrieveView, UpdateView, DestroyView):
-    queryset = InformationElementAssociation.objects.all()
     serializer_class = InformationElementAssociationSerializer
+
+    def get_queryset(self):
+        return InformationElementAssociation.objects.filter(
+            source__application__user=self.request.user,
+        )
 
 
 class InformationElementAssociationList(ListView, CreateView):
-    queryset = InformationElementAssociation.objects.all()
     serializer_class = InformationElementAssociationSerializer
+
+    def get_queryset(self):
+        return InformationElementAssociation.objects.filter(
+            source__application__user=self.request.user,
+        )
