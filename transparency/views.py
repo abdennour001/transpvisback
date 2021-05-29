@@ -21,6 +21,8 @@ from transparency.serializers import (
     InformationElementAssociationSerializer,
 )
 from rest_framework import permissions
+from rest_framework import status
+from rest_framework.response import Response
 
 
 class ApplicationDetail(RetrieveView, UpdateView, DestroyView):
@@ -115,7 +117,7 @@ class StakeholderInformationRelationshipList(ListView, CreateView):
         )
 
 
-class InformationElementAssociationDetail(RetrieveView, UpdateView, DestroyView):
+class InformationElementAssociationDetail(RetrieveView, UpdateView):
     serializer_class = InformationElementAssociationSerializer
 
     def get_queryset(self):
@@ -124,10 +126,24 @@ class InformationElementAssociationDetail(RetrieveView, UpdateView, DestroyView)
         )
 
 
-class InformationElementAssociationList(ListView, CreateView):
+class InformationElementAssociationList(ListView, CreateView, DestroyView):
     serializer_class = InformationElementAssociationSerializer
 
     def get_queryset(self):
         return InformationElementAssociation.objects.filter(
             source__application__user=self.request.user,
         )
+
+    def delete(self, request, *args, **kwargs):
+        try:
+            source = request.data["source"]
+            target = request.data["target"]
+            association = InformationElementAssociation.objects.get(
+                source=source, target=target
+            )
+            association.delete()
+            return Response(status.HTTP_200_OK)
+        except:
+            return Response(
+                {"status": "association not found"}, status=status.HTTP_404_NOT_FOUND
+            )
