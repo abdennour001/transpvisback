@@ -1,2 +1,2 @@
-web: cd ./src/ && gunicorn transpvisback.wsgi --log-file -
-release: python src/manage.py migrate
+web: gunicorn transpvisback.wsgi --log-file -
+release: python manage.py migrate
