@@ -18,7 +18,11 @@ services:
     environment:
      - ENV=dev
      - DEBUG=True
-     - DB=db-transpvisback
+     - DB_HOST=db-transpvisback
+     - DB_PORT=5432
+     - DB_NAME=postgres
+     - DB_USER=postgres
+     - DB_PASSWORD=None
      - ROOT_URL=http://127.0.0.1:3000/
     build:
       context: ./
